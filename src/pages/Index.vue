@@ -1,25 +1,31 @@
-<template lang='pug'>
+<template lang="pug">
   layout
-    section#animation
-      h1
-        span(v-for='(l, i) in title.split("")' :key='i')
-          span(:style='calcColor(i)') {{ l }}
-      .rainbow-wrapper
-        .rainbow.raindbow-one
-        .rainbow.raindbow-two
-      #block
-        .squares
-          .square
-            input(type="color" @input='updateColorOne' :value='colorOne' id="color-one")
-          .square
-            input(type="color" @input='updateColorTwo' :value='colorTwo' id="color-two")
-          .square
-            input(type="color" @input='updateColorThree' :value='colorThree' id="color-three")
-          .square
-            input(type="color" @input='updateColorFour' :value='colorFour' id="color-four")
-          .square
-            input(type="color" @input='updateColorFive' :value='colorFive' id="color-five")
+    section
+      #message
+        h1.message
+          span(v-for='(l, i) in title.split("")' :key='i')
+            span(:style='calcColor(i)') {{ l }}
+    section
+      #scene--wrapper
+        .scene
+          .sun
+          .rainbow-line--wrap(v-for='n in 5' :class="[`rainbow-line--wrap-${n}`]")
+            .rainbow-line
+          .ground
+            .squares
+              .square
+                input(type="color" @input='updateColorOne' :value='colorOne' id="color-one")
+              .square
+                input(type="color" @input='updateColorTwo' :value='colorTwo' id="color-two")
+              .square
+                input(type="color" @input='updateColorThree' :value='colorThree' id="color-three")
+              .square
+                input(type="color" @input='updateColorFour' :value='colorFour' id="color-four")
+              .square
+                input(type="color" @input='updateColorFive' :value='colorFive' id="color-five")
+
 </template>
+
 
 <script>
 export default {
@@ -28,12 +34,13 @@ export default {
   },
   data() {
     return {
-      colorOne: '#FF7900',
-      colorTwo: '#FFFF01',
-      colorThree: '#13DD17',
+      colorOne: '#FF0300',
+      colorTwo: '#FF7900',
+      colorThree: '#44cc17',
       colorFour: '#304FFF',
       colorFive: '#7B20A3',
-      title: 'HAPPY BIRTHDAY TEAGAN!!'
+      title: 'HAPPY BIRTHDAY TEAGAN!!',
+      rainbows: []
     }
   },
   methods: {
@@ -72,91 +79,122 @@ export default {
 }
 </script>
 
-<style lang='stylus'>
-anim = spin 6s linear infinite 0.02s
+
+<style lang="stylus">
 :root
-  --color-one #FF7900
-  --color-two #FFFF01
-  --color-three #13DD17
+  --color-one #FF0300
+  --color-two #FF7900
+  --color-three #44cc17
   --color-four #304FFF
   --color-five #7B20A3
 
-#animation
-  position relative
-  width 100%
-  margin 0 auto
-  height 400px
-  padding 40px 0 0 0
-  h1
-    text-align center
-    font-size 64px
-    margin 0
-.rainbow-wrapper
-  position absolute
-  left 50%
-  width 300px
-  margin-top 120px
-  transform translateX(-50%)
-.rainbow
+.debug
+  border 1px solid red
+
+section
   display block
+  width 100%
+.message
+  text-align center
+  padding 20px 0 60px 0
+  font-size 48px
+  letter-spacing 0.1em
+  text-shadow 2px 2px 8px rgba(0, 0, 0, 0.15)
+// loader
+#scene--wrapper
+  background #ffffff
+  position relative
+  box-sizing border-box
+  height 400px
+// loader inner
+.scene
+  bottom 0
+  height 400px
+  left 0
+  margin auto
+  position absolute
+  right 0
+  top 0
+  width 400px
+.sun
+  display block
+  height 64px
+  width 64px
+  content ''
+  background yellow
+  position absolute
+  top -40px
+  right -20px
+  border-radius 100%
+  z-index 999
+.ground
+  border-top 4px solid green
+  background #fff
+  width 150%
+  position absolute
+  height 220px
+  top 50%
+  left -25%
+// loader line wrap
+.rainbow-line--wrap
+  box-sizing border-box
+  height 100%
+  left 0
   position absolute
   top 0
-  left 0
-  height 300px
-  width 300px
-  margin 0
-  border 24px solid transparent
-  border-right-color var(--color-three)
-  border-top-color var(--color-three)
-  border-radius: 50%
-  animation anim
-  transform translateY(-50%)
-  &.raindbow-two
-    width 400px
-    height 400px
-    left -48px
-    top -48px
-    z-index -1
-    border-right-color var(--color-one)
-    border-top-color var(--color-one)
-    &:before
-      display none
-    &:after
-      border 48px solid transparent
-      border-right-color var(--color-two)
-      border-top-color var(--color-two)
-  &:before
-    content ""
-    position absolute
-    top 0
-    right 0
-    bottom 0
-    left 0
-    border 48px solid transparent
-    border-radius 50%
-    border-right-color var(--color-five)
-    border-top-color var(--color-five)
-    // animation spin 6s linear forwards 0.02s
-  &:after
-    content ""
-    position absolute
-    top 0
-    right 0
-    bottom 0
-    left 0
-    border 24px solid transparent
-    border-radius 50%
-    border-right-color var(--color-four)
-    border-top-color var(--color-four)
-    // animation spin 6s linear forwards 0.02s
-#block
+  transform-origin 50% 50%
+  transform rotate(-45deg)
+  animation-name spin
+  animation-duration 12s
+  animation-iteration-count infinite
+  animation-timing-function linear
   width 100%
-  height 300px
-  margin 0 auto
-  position absolute
-  top 93%
-  background #ffffff
-  border-top 4px solid green
+  // loader line
+  .rainbow-line
+    border 16px solid transparent
+    border-radius 100%
+    box-sizing border-box
+    height 100px
+    left 0
+    margin 0 auto
+    position absolute
+    right 0
+    top 0
+    width 100px
+  &-1 .rainbow-line
+    border-top-color var(--color-one)
+    border-right-color var(--color-one)
+    height 400px
+    width 400px
+    top 8px
+  &-2 .rainbow-line
+    border-top-color var(--color-two)
+    border-right-color var(--color-two)
+    height 360px
+    width 360px
+    top 28px
+    left 2px
+  &-3 .rainbow-line
+    border-top-color var(--color-three)
+    border-right-color var(--color-three)
+    height 320px
+    width 320px
+    top 48px
+    left 4px
+  &-4 .rainbow-line
+    border-top-color var(--color-four)
+    border-right-color var(--color-four)
+    height 280px
+    width 280px
+    top 68px
+    left 4px
+  &-5 .rainbow-line
+    border-top-color var(--color-five)
+    border-right-color var(--color-five)
+    height 240px
+    width 240px
+    top 88px
+    left 4px
 .squares
   width 300px
   margin 40px auto
@@ -167,18 +205,15 @@ anim = spin 6s linear infinite 0.02s
 input[type='color']
   width 40px
   height 40px
+
+
+// spin
 @keyframes spin {
-  from {
-    -webkit-transform rotate(0deg)
-    transform rotate(0deg)
-    -webkit-transform rotate(0deg)
-    transform rotate(0deg)
+  0%, 15% {
+    transform rotate(-45deg)
   }
-  to {
-    -webkit-transform rotate(359deg)
-    transform rotate(359deg)
-    -webkit-transform rotate(359deg)
-    transform rotate(359deg)
+  100% {
+    transform rotate(315deg)
   }
 }
 </style>

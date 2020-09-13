@@ -16,11 +16,8 @@ body
   height 100vh
 
 #page
-  width 90%
+  width 100%
   min-height 100%
-  display flex
-  justify-content center
-  align-items center
-  border 1px solid blue
-  padding 40px
+  padding 40px 0
+  margin 0
 </style>
